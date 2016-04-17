@@ -15,40 +15,40 @@ action :install
 end
 
 
-template "/etc/mysql/set.password" do
- source "set.password.erb"
- owner "root"
- group "root"
- mode "640"
- notifies :run, "execute[create-app-db]"
-end
+# template "/etc/mysql/set.password" do
+# source "set.password.erb"
+# owner "root"
+# group "root"
+# mode "640"
+# notifies :run, "execute[create-app-db]"
+#end
 
-execute "create-app-db" do
-  command "echo \"create database app\" \| mysql -u root"
-  action :nothing
-  notifies :run, "execute[app-permissions]"
-end
+#execute "create-app-db" do
+#  command "echo \"create database app\" \| mysql -u root"
+#  action :nothing
+#  notifies :run, "execute[app-permissions]"
+#end
 
-execute "app-permissions" do
-  command "echo \"grant all privileges on app.* to #{node['mysql']['user']}@'localhost' identified by '#{node['mysql']['pass']}'\" \| mysql -u root"
-  notifies :run, "execute[change-root-password]"
-  action :nothing
-end
+#execute "app-permissions" do
+#  command "echo \"grant all privileges on app.* to #{node['mysql']['user']}@'localhost' identified by '#{node['mysql']['pass']}'\" \| mysql -u root"
+#  notifies :run, "execute[change-root-password]"
+#  action :nothing
+#end
 
-execute "change-root-password" do
-  command "mysqladmin -h localhost -u root password  #{node['mysql']['root']}"
-  action :nothing
-end
+#execute "change-root-password" do
+#  command "mysqladmin -h localhost -u root password  #{node['mysql']['root']}"
+#  action :nothing
+#end
 
 
-wordpress_latest = "/tmp/wordpress-latest.tar.gz"
-installed_file = node["phpapp"]["path"] + "/index.php"
+#wordpress_latest = "/tmp/wordpress-latest.tar.gz"
+#installed_file = node["phpapp"]["path"] + "/index.php"
 
-remote_file "/tmp/wordpress-latest.tar.gz" do
-  source "http://wordpress.org/latest.tar.gz"
-  mode "0644"
-  not_if "test -f " + wordpress_latest
-end
+#remote_file "/tmp/wordpress-latest.tar.gz" do
+#  source "http://wordpress.org/latest.tar.gz"
+#  mode "0644"
+#  not_if "test -f " + wordpress_latest
+#end
 
 directory node["phpapp"]["path"] do
   owner "www-data"
@@ -58,11 +58,11 @@ directory node["phpapp"]["path"] do
   recursive true
 end
 
-execute "untar-wordpress" do
-  cwd node['phpapp']['path']
-  command "tar --strip-components 1 -xzf " + wordpress_latest
-  not_if "test -f " + installed_file
-end
+#execute "untar-wordpress" do
+#  cwd node['phpapp']['path']
+#  command "tar --strip-components 1 -xzf " + wordpress_latest
+#  not_if "test -f " + installed_file
+#end
 
 directory node["phpapp"]["path"] do
   owner "www-data"
