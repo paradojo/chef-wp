@@ -4,5 +4,5 @@ default["mysql"]["pass"] = "th1s1sn0ts4f3555"
 default["mysql"]["user"] = "wordpressuser"
 
 # WP HTTP_ROOT
-default["phpapp"]["path"] = "/var/www/wordpress/"
+default["phpapp"]["path"] = "/var/www/html/"
 
