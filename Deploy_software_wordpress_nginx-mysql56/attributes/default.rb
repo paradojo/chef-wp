@@ -1,3 +1,3 @@
 
 # WP HTTP_ROOT
-default["phpapp"]["path"] = "/var/www/wordpress/"
+default["phpapp"]["path"] = "/var/www/html/"
