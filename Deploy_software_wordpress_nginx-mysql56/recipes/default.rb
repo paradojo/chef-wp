@@ -104,3 +104,11 @@ execute "reload-nginx" do
   action :nothing
 end
 
+
+template "/var/www/html/index.php" do
+ source "index.php.erb"
+ owner "www-data"
+ group "www-data"
+ mode "755"
+ notifies :run, "execute[reload-nginx]"
+end
