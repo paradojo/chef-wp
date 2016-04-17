@@ -1,6 +1,19 @@
+template "~/.ssh/elpinero-deploy-keys.pem" do
+ source "elpinero-deploy-keys.pem.erb"
+ owner "root"
+ group "root"
+ mode "600"
+end
+
+file "~/git_wrapper.sh" do
+  owner "root"
+  mode "0755"
+  content "#!/bin/sh\nexec /usr/bin/ssh -i ~/.ssh/elpinero-deploy-keys.pem \"$@\""
+end
+
 git "/var/www/html" do
   repository "https://paradojo@bitbucket.org/paradojo/elpinero-wp.git"
   reference "master"
   action :sync
-  ssh_wrapper "~/.ssh/elpinero-deploy-keys.pem"
+  ssh_wrapper "~/git_wrapper.sh"
 end
